@@ -8,4 +8,4 @@ before_script:
   - composer self-update
   - composer install
   - cd tests
-script: phpunit
+script: phpunit --configuration phpunit.xml --coverage-text
