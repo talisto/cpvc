@@ -9,7 +9,7 @@
 
 namespace Talisto\Composer\VersionCheck\Console;
 
-use Symfony\Component\Console\Command\Command as ConsoleCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -20,7 +20,7 @@ use Doctrine\Common\Cache\FilesystemCache;
 use Talisto\Composer\VersionCheck\Checker;
 use Talisto\Composer\VersionCheck\Formatter\Console as Formatter;
 
-class Command extends ConsoleCommand
+class Command extends BaseCommand
 {
     /**
      * configure the console command.

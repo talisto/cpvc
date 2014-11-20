@@ -38,12 +38,26 @@ class Checker
      */
     public function __construct($composer_file, Cache $cache = null)
     {
-        $factory = new ComposerFactory;
-        $composer = $factory->createComposer(new NullIO, $composer_file);
-
-        $this->composer      = $composer;
-        $this->cache         = $cache;
+        $this->readComposerFile($composer_file);
+        if ($cache) {
+            $this->setCache($cache);
+        }
         $this->versionParser = new VersionParser;
+    }
+
+    /**
+     * reads/processes the composer.json file, and creates a new Composer object.
+     *
+     * @access public
+     * @param string $file  full path & name to the composer.json file
+     * @return self
+     */
+    public function readComposerFile($file)
+    {
+        $factory = new ComposerFactory;
+        $composer = $factory->createComposer(new NullIO, $file);
+        $this->composer = $composer;
+        return $this;
     }
 
     /**
@@ -51,12 +65,33 @@ class Checker
      *
      * @access public
      * @param Cache $cache
-     * @return this
+     * @return self
      */
     public function setCache(Cache $cache)
     {
         $this->cache = $cache;
         return $this;
+    }
+
+    /**
+     * generates a cache ID string based on the method's parameters.
+     *
+     * @access protected
+     * @return string
+     */
+    protected function cacheId()
+    {
+        $args = func_get_args();
+        $cache_id = '';
+        foreach ($args as $arg) {
+            if (is_string($arg)) {
+                $cache_id .= $arg;
+            } else {
+                $cache_id .= md5(serialize($arg));
+            }
+            $cache_id .= ':';
+        }
+        return $cache_id;
     }
 
     /**
@@ -73,6 +108,28 @@ class Checker
             $result = $result + $packages;
         }
         return $result;
+    }
+
+    /**
+     * searches $packages for the most recent package matching $package_name.
+     *
+     * @access protected
+     * @param string $package_name
+     * @param Package[] $packages
+     * @param string $stability (default: null)
+     * @return false|Package
+     */
+    protected function getMostRecent($package_name, $packages, $stability = null)
+    {
+        $latest = false;
+        foreach ($packages as $package) {
+            if (($package->getName() == $package_name)
+                and ( ! $stability or $package->getStability() == $stability)
+                and ( ! $latest or version_compare($package->getVersion(), $latest->getVersion())==1)) {
+                $latest = $package;
+            }
+        }
+        return $latest;
     }
 
     /**
@@ -94,16 +151,7 @@ class Checker
             return;
         }
 
-        $latest = false;
-        foreach ($matches as $match) {
-            if (($match->getName() == $package_name)
-                and ( ! $stability or $match->getStability() == $stability)
-                and ( ! $latest or version_compare($match->getVersion(), $latest->getVersion())==1)) {
-                $latest = $match;
-            }
-        }
-
-        if ($latest) {
+        if ($latest = $this->getMostRecent($package_name, $matches, $stability)) {
             // we return a new package here, rather than the existing complete package,
             // in order to make caching easier.  Otherwise the cache ends up being
             // massive, and PHP runs out of memory reading it back in!
@@ -123,8 +171,7 @@ class Checker
     public function checkPackageLink($name, Link $link)
     {
         if ($this->cache) {
-            $cache_id = __METHOD__.':'.$name.':'.md5(serialize($link));
-            if ($result = $this->cache->fetch($cache_id)) {
+            if ($result = $this->cache->fetch($this->cacheId(__METHOD__, $name, $link))) {
                 return $result;
             }
         }
@@ -141,7 +188,7 @@ class Checker
             $result['latest'] = $latest?:$current;
 
             if ($this->cache) {
-                $this->cache->save($cache_id, $result, $this->cacheTTL);
+                $this->cache->save($this->cacheId(__METHOD__, $name, $link), $result, $this->cacheTTL);
             }
         }
         return $result;
@@ -152,7 +199,7 @@ class Checker
      * the latest (most recent) package of the same stability.
      *
      * @access public
-     * @param mixed $packages   indexed array of Link classes
+     * @param array $packages   indexed array of Link classes
      * @return array
      */
     public function checkPackages($packages)

@@ -9,10 +9,10 @@
 
 namespace Talisto\Composer\VersionCheck\Console;
 
-use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 
-class Application extends ConsoleApplication
+class Application extends BaseApplication
 {
     /**
      * Gets the name of the command based on input.
@@ -29,7 +29,7 @@ class Application extends ConsoleApplication
     /**
      * Gets the default commands that should always be available.
      *
-     * @return array An array of default Command instances
+     * @return \Symfony\Component\Console\Command\Command[] An array of default Command instances
      */
     protected function getDefaultCommands()
     {
