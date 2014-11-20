@@ -51,7 +51,9 @@ parameter to cache the lookup results:
     $checker = new Checker('/path/to/your/composer.json', $cache);
     $result = $checker->checkAll();
 
-There is also an output formatter class that will take the results and output an HTML table:
+*Alternatively you can use the `setCache()` method to set the cache handler.*
+
+There is an output formatter class that will take the results and output an HTML table:
 
     use Talisto\Composer\VersionCheck\Checker;
     use Talisto\Composer\VersionCheck\Formatter\HTML as Formatter;

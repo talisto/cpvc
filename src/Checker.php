@@ -47,6 +47,19 @@ class Checker
     }
 
     /**
+     * sets the cache handler (doctrine cache).
+     *
+     * @access public
+     * @param Cache $cache
+     * @return this
+     */
+    public function setCache(Cache $cache)
+    {
+        $this->cache = $cache;
+        return $this;
+    }
+
+    /**
      * returns the package links parsed from the composer.json file (by the Composer class).
      *
      * @access public
