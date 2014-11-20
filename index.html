@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Cpvc by talisto</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Cpvc</h1>
+        <p>Composer.json Package Version Checker (cpvc)</p>
+
+        <p class="view"><a href="https://github.com/talisto/cpvc">View the Project on GitHub <small>talisto/cpvc</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/talisto/cpvc/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/talisto/cpvc/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/talisto/cpvc">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="composerjson-package-version-checker-cpvc" class="anchor" href="#composerjson-package-version-checker-cpvc" aria-hidden="true"><span class="octicon octicon-link"></span></a>Composer.json Package Version Checker (cpvc)</h1>
+
+<p>Do you lock down your composer.json dependencies to a particular version for stability in your application,
+but often wonder if there's new versions of your dependencies that you should be implementing?  </p>
+
+<p>This small application/library will check your composer.json file, and output a table showing the latest version
+that will be installed based on your "require" statements, as well as the latest version (of the same stability)
+of the package in the repository.  You can then compare the versions and investigate any updates to your
+dependencies for refactoring.</p>
+
+<h3>
+<a id="sample-output-cli-mode" class="anchor" href="#sample-output-cli-mode" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sample output (CLI mode):</h3>
+
+<pre><code>+-----------------------------+------------------+--------------------+
+| Package                     | Required Version | Repository Version |
++-----------------------------+------------------+--------------------+
+| * talisto/fake-repository   | 1.0.1            | 2.0.0              |
+| talisto/fake-dev-repository | 2.5.1            | 2.5.1              |
++-----------------------------+------------------+--------------------+
+</code></pre>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>You can use this package as a library in your application, or a CLI app, or a web app.</p>
+
+<h3>
+<a id="library-usage" class="anchor" href="#library-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Library Usage:</h3>
+
+<p>For a quick install with Composer use:</p>
+
+<pre><code>$ composer require talisto/cpvc
+</code></pre>
+
+<p>Then in your application, use the following:</p>
+
+<pre><code>use Talisto\Composer\VersionCheck\Checker;
+
+$checker = new Checker('/path/to/your/composer.json');
+$result = $checker-&gt;checkAll();
+</code></pre>
+
+<p>The <code>Checker()</code> constructor will take a <a href="https://github.com/doctrine/cache">Doctrine Cache</a> object as the second
+parameter to cache the lookup results:</p>
+
+<pre><code>use Talisto\Composer\VersionCheck\Checker;
+use Doctrine\Common\Cache\FilesystemCache;
+
+$cache = new FilesystemCache(sys_get_temp_dir());
+$checker = new Checker('/path/to/your/composer.json', $cache);
+$result = $checker-&gt;checkAll();
+</code></pre>
+
+<p>There is also an output formatter class that will take the results and output an HTML table:</p>
+
+<pre><code>use Talisto\Composer\VersionCheck\Checker;
+use Talisto\Composer\VersionCheck\Formatter\HTML as Formatter;
+
+$checker = new Checker('/path/to/your/composer.json');
+$formatter = new Formatter;
+echo $formatter-&gt;render($checker-&gt;checkAll());
+</code></pre>
+
+<p>If you only want to check a subset of your dependencies:</p>
+
+<pre><code>use Talisto\Composer\VersionCheck\Checker;
+use Talisto\Composer\VersionCheck\Formatter\HTML as Formatter;
+
+$checker = new Checker('/path/to/your/composer.json');
+$packages = $checker-&gt;getPackageLinks();
+$result = $checker-&gt;checkPackages(array(
+    'talisto/fake-repository' =&gt; $packages['talisto/fake-repository']
+));
+</code></pre>
+
+<h3>
+<a id="cli-usage" class="anchor" href="#cli-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>CLI usage:</h3>
+
+<p>There are two ways to run the checker from the CLI.  You'll need to run <code>composer install</code> in the package root
+to install the dependencies before running the scripts.</p>
+
+<ol>
+<li> <em>php script</em>:
+<code>php cli/index.php</code>
+</li>
+<li> <em>phar archive</em>:
+<code>cd build; php create_phar.php; chmod u+x cpvc.phar; ./cpvc.phar</code>
+</li>
+</ol>
+
+<p>The CLI script takes multiple parameters, run with <code>-h</code> for help:</p>
+
+<pre><code>Usage:
+ cpvc [--no-dev] [--no-cache] [path]
+
+Arguments:
+ path                  Path to composer.json (default: "/Users/matt/Projects/cpvc/build")
+
+Options:
+ --no-dev              Don't include dev dependencies.
+ --no-cache            Don't cache the results.
+ --help (-h)           Display this help message.
+ --quiet (-q)          Do not output any message.
+ --verbose (-v|vv|vvv) Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug.
+ --version (-V)        Display this application version.
+ --ansi                Force ANSI output.
+ --no-ansi             Disable ANSI output.
+ --no-interaction (-n) Do not ask any interactive question.
+</code></pre>
+
+<h3>
+<a id="web-usage" class="anchor" href="#web-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Web usage:</h3>
+
+<p>There is a simple index.php script in the <code>www</code> folder that will allow you to upload a <code>composer.json</code> file through
+a web browser.  Just point your webserver to that folder.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/talisto">talisto</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
