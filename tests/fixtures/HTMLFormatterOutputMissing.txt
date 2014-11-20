@@ -1,0 +1,3 @@
+<table><tr><th>Package</th><th>Required Version</th><th>Repository Version</th></tr>
+<tr><td>talisto/fake-repository</td><td colspan=2>Not Found</td></tr>
+</table>

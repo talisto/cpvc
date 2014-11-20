@@ -20,7 +20,7 @@ class HTML
      */
     public function render($packages)
     {
-        $output = "<table><tr><th>Package</th><th>Required Version</th><th>Repository Version</th></tr>";
+        $output = "<table><tr><th>Package</th><th>Required Version</th><th>Repository Version</th></tr>\n";
         foreach ($packages as $name => $package) {
             if (empty($package['current']) or empty($package['latest'])) {
                 $output .= "<tr><td>".$name."</td><td colspan=2>Not Found</td></tr>\n";

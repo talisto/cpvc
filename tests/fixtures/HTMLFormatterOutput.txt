@@ -1,4 +1,5 @@
-<table><tr><th>Package</th><th>Required Version</th><th>Repository Version</th></tr><tr class="new">
+<table><tr><th>Package</th><th>Required Version</th><th>Repository Version</th></tr>
+<tr class="new">
 <td>talisto/fake-repository</td>
 <td>1.0.1</td>
 <td>2.0.0</td>

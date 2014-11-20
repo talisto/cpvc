@@ -1,0 +1,10 @@
+{
+    "repositories": [
+        {
+            "packagist": false
+        }
+    ],
+    "require": {
+        "talisto/fake-repository": "~1.0"
+    }
+}
