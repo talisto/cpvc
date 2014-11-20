@@ -1,0 +1,19 @@
+body {
+    font-family: sans-serif;
+    padding: 20px;
+}
+
+input {
+    border:1px solid #ddd;
+    padding: 5px;
+}
+
+td, th {
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+tr.new td {
+    font-weight: bold;
+    color: blue;
+}

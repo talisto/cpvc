@@ -1,0 +1,34 @@
+{
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "talisto/fake-repository",
+                "version": "1.0.1"
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "talisto/fake-repository",
+                "version": "2.0.0"
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "talisto/fake-dev-repository",
+                "version": "2.5.1"
+            }
+        },
+        {
+            "packagist": false
+        }        
+    ],
+    "require": {
+        "talisto/fake-repository": "~1.0"
+    }, 
+    "require-dev": {
+        "talisto/fake-dev-repository": "~2.5"        
+    }
+}
