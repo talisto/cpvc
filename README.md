@@ -79,7 +79,7 @@ There are two ways to run the checker from the CLI.  You'll need to run `compose
 to install the dependencies before running the scripts.
 
 1.  *php script*:
-    `php cli/index.php`
+    `php cli/cpvc.php`
 2.  *phar archive*:
     `cd build; php create_phar.php; chmod u+x cpvc.phar; ./cpvc.phar`
 
