@@ -1,6 +1,11 @@
 Composer.json Package Version Checker (cpvc)
 ============================================
 
+[![Build Status](https://travis-ci.org/talisto/cpvc.svg?branch=master)](https://travis-ci.org/talisto/cpvc)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/talisto/cpvc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/talisto/cpvc/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/talisto/cpvc/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/talisto/cpvc/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/talisto/cpvc/badges/build.png?b=master)](https://scrutinizer-ci.com/g/talisto/cpvc/build-status/master)
+
 Do you lock down your composer.json dependencies to a particular version for stability in your application,
 but often wonder if there's new versions of your dependencies that you should be implementing?  
 
