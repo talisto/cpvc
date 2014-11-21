@@ -1,4 +1,4 @@
-Composer.json Package Version Checker (cpvc)
+Composer.json Package Version Checker (CPVC)
 ============================================
 
 [![Build Status](https://travis-ci.org/talisto/cpvc.svg?branch=master)](https://travis-ci.org/talisto/cpvc)
@@ -6,13 +6,16 @@ Composer.json Package Version Checker (cpvc)
 [![Code Coverage](https://scrutinizer-ci.com/g/talisto/cpvc/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/talisto/cpvc/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/talisto/cpvc/badges/build.png?b=master)](https://scrutinizer-ci.com/g/talisto/cpvc/build-status/master)
 
-Do you lock down your composer.json dependencies to a particular version for stability in your application,
-but often wonder if there's new versions of your dependencies that you should be implementing?  
+Do you lock down your composer.json dependencies to a particular version for stability in your project,
+but often wonder if your dependencies are outdated?  
 
-This small application/library will check your composer.json file, and output a table showing the latest version
-that will be installed based on your "require" statements, as well as the latest version (of the same stability)
-of the package in the repository.  You can then compare the versions and investigate any updates to your
-dependencies for refactoring.
+This small application/library will check your composer.json file and output a table showing the latest version
+that will be installed based on your "require" statements, as well as the latest version of the package in the
+repository.  You can then compare the versions and decide if you want to upgrade to the newer release.
+
+There are [online tools](https://www.versioneye.com) to check your dependencies as well, but those require
+your project to be hosted online or need to have a project file constantly uploaded to the service.
+CPVC can be run locally or integrated into your own application.  
 
 ### Sample output (CLI mode):
 
@@ -106,3 +109,5 @@ The CLI script takes multiple parameters, run with `-h` for help:
 
 There is a simple index.php script in the `www` folder that will allow you to upload a `composer.json` file through
 a web browser.  Just point your webserver to that folder.
+
+*Note: the web script is provided as a proof-of-concept and may not be suitable for public hosts.*
