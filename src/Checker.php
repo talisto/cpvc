@@ -47,11 +47,11 @@ class Checker
     /**
      * reads/processes the composer.json file, and creates a new Composer object.
      *
-     * @access public
+     * @access protected
      * @param string $file  full path & name to the composer.json file
      * @return self
      */
-    public function readComposerFile($file)
+    protected function readComposerFile($file)
     {
         $factory = new ComposerFactory;
         $composer = $factory->createComposer(new NullIO, $file);
@@ -96,11 +96,11 @@ class Checker
     /**
      * returns the package links parsed from the composer.json file (by the Composer class).
      *
-     * @access public
+     * @access protected
      * @param bool $includeDev (default: true)  include dev packages
      * @return array
      */
-    public function getPackageLinks($includeDev = true)
+    protected function getPackageLinks($includeDev = true)
     {
         $result = $this->composer->getPackage()->getRequires();
         if ($includeDev and $packages = $this->composer->getPackage()->getDevRequires()) {
@@ -162,12 +162,12 @@ class Checker
      * checks a particular package name and link data for the current (required)
      * package as well as the latest (most recent) package of the same stability.
      *
-     * @access public
+     * @access protected
      * @param mixed $name
      * @param Link $link
      * @return null|array
      */
-    public function checkPackageLink($name, Link $link)
+    protected function checkPackageLink($name, Link $link)
     {
         if ($this->cache) {
             if ($result = $this->cache->fetch($this->cacheId(__METHOD__, $name, $link))) {
