@@ -71,10 +71,7 @@ If you only want to check a subset of your dependencies:
     use Talisto\Composer\VersionCheck\Formatter\HTML as Formatter;
     
     $checker = new Checker('/path/to/your/composer.json');
-    $packages = $checker->getPackageLinks();
-    $result = $checker->checkPackages(array(
-        'talisto/fake-repository' => $packages['talisto/fake-repository']
-    ));
+    $result = $checker->checkPackages(array('talisto/fake-repository'));
 
 ### CLI usage:
 
@@ -92,7 +89,7 @@ The CLI script takes multiple parameters, run with `-h` for help:
      cpvc [--no-dev] [--no-cache] [path]
     
     Arguments:
-     path                  Path to composer.json (default: "/Users/matt/Projects/cpvc/build")
+     path                  Path to composer.json
     
     Options:
      --no-dev              Don't include dev dependencies.

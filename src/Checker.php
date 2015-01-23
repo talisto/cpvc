@@ -195,20 +195,38 @@ class Checker
     }
 
     /**
-     * checks multiple packages to return the current (required) package as well as
+     * checks multiple package links to return the current (required) package as well as
      * the latest (most recent) package of the same stability.
      *
-     * @access public
+     * @access protected
      * @param array $packages   indexed array of Link classes
      * @return array
      */
-    public function checkPackages($packages)
+    protected function checkPackageLinks($packages)
     {
         $result = array();
         foreach ($packages as $name => $link) {
             $result[$name] = $this->checkPackageLink($name, $link);
         }
         return $result;
+    }
+
+    /**
+     * checks multiple packages by name to return the current (required) package as well as
+     * the latest (most recent) package of the same stability.
+     *
+     * @access public
+     * @param array $packages   array of package names
+     * @return array
+     */
+    public function checkPackages($packages)
+    {
+        return $this->checkPackageLinks(
+            array_intersect_key(
+                $this->getPackageLinks(true),
+                array_flip($packages)
+            )
+        );
     }
 
     /**
@@ -222,7 +240,7 @@ class Checker
     public function checkAll($includeDev = true)
     {
         if ($packages = $this->getPackageLinks($includeDev)) {
-            return $this->checkPackages($packages);
+            return $this->checkPackageLinks($packages);
         }
     }
 }
