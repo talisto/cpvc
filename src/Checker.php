@@ -34,7 +34,6 @@ class Checker
      * @access public
      * @param string $composer_file full path and name to the composer.json file
      * @param Cache $cache (default: null)  doctrine cache
-     * @return null
      */
     public function __construct($composer_file, Cache $cache = null)
     {

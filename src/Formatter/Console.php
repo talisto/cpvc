@@ -21,7 +21,6 @@ class Console
      *
      * @access public
      * @param OutputInterface $output
-     * @return void
      */
     public function __construct(OutputInterface $output)
     {
