@@ -22,17 +22,17 @@ class HTML
     {
         $output = "<table><tr><th>Package</th><th>Required Version</th><th>Repository Version</th></tr>\n";
         foreach ($packages as $name => $package) {
-            if (empty($package['current']) or empty($package['latest'])) {
+            if (empty($package['required']) or empty($package['latest'])) {
                 $output .= "<tr><td>".$name."</td><td colspan=2>Not Found</td></tr>\n";
             } else {
-                if ($package['current']->getVersion()!=$package['latest']->getVersion()) {
+                if ($package['required']->getVersion()!=$package['latest']->getVersion()) {
                     $new = true;
                 } else {
                     $new = false;
                 }
                 $output .= "<tr".($new?" class=\"new\"":false).">\n";
                 $output .= "<td>".$name."</td>\n";
-                $output .= "<td>".$package['current']->getPrettyVersion()."</td>\n";
+                $output .= "<td>".$package['required']->getPrettyVersion()."</td>\n";
                 $output .= "<td>".$package['latest']->getPrettyVersion()."</td>\n";
                 $output .= "</tr>\n";
             }

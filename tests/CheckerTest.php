@@ -42,9 +42,9 @@ class CheckerTest extends \PHPUnit_Framework_TestCase
         $result = $checker->checkAll();
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('talisto/fake-repository', $result);
-        $this->assertInstanceOf('Composer\Package\Package', $result['talisto/fake-repository']['current']);
+        $this->assertInstanceOf('Composer\Package\Package', $result['talisto/fake-repository']['required']);
         $this->assertInstanceOf('Composer\Package\Package', $result['talisto/fake-repository']['latest']);
-        $this->assertSame('1.0.1', $result['talisto/fake-repository']['current']->getPrettyVersion());
+        $this->assertSame('1.0.1', $result['talisto/fake-repository']['required']->getPrettyVersion());
         $this->assertSame('2.0.0', $result['talisto/fake-repository']['latest']->getPrettyVersion());
     }
 
@@ -56,7 +56,7 @@ class CheckerTest extends \PHPUnit_Framework_TestCase
         $result = $checker->checkAll();
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('talisto/fake-repository', $result);
-        $this->assertSame(false, $result['talisto/fake-repository']['current']);
+        $this->assertSame(false, $result['talisto/fake-repository']['required']);
         $this->assertSame(false, $result['talisto/fake-repository']['latest']);
     }
 }

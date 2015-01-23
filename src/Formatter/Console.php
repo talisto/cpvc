@@ -43,19 +43,19 @@ class Console
         ));
 
         foreach ($packages as $name => $package) {
-            if (empty($package['current']) or empty($package['latest'])) {
+            if (empty($package['required']) or empty($package['latest'])) {
                 $table->addRow(array(
                    $name, '<fg=red>Not Found</fg=red>', '<fg=red>Not Found</fg=red>'
                 ));
-            } elseif ($package['current']!=$package['latest']) {
+            } elseif ($package['required']!=$package['latest']) {
                 $table->addRow(array(
                    '<options=bold><fg=yellow>*</fg=yellow> '.$name.'</options=bold>',
-                   '<options=bold>'.$package['current']->getPrettyVersion().'</options=bold>',
+                   '<options=bold>'.$package['required']->getPrettyVersion().'</options=bold>',
                    '<options=bold>'.$package['latest']->getPrettyVersion().'</options=bold>'
                 ));
             } else {
                 $table->addRow(array(
-                   $name, $package['current']->getPrettyVersion(), $package['latest']->getPrettyVersion()
+                   $name, $package['required']->getPrettyVersion(), $package['latest']->getPrettyVersion()
                 ));
             }
         }

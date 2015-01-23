@@ -177,14 +177,14 @@ class Checker
         }
 
         $result = array(
-            'current' => false,
+            'required' => false,
             'latest'  => false
         );
 
         $stability = $this->versionParser->parseStability($link->getPrettyConstraint());
         if ($current = $this->find($name, $link->getConstraint(), $stability)) {
             $latest = $this->find($name, new VersionConstraint('>', $current->getVersion()), $stability);
-            $result['current'] = $current;
+            $result['required'] = $current;
             $result['latest'] = $latest?:$current;
 
             if ($this->cache) {
