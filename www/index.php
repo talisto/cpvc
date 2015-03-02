@@ -1,9 +1,3 @@
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="css/default.css" />
-    </head>
-<body>
-    <h1>Composer package version checker</h1>
 <?php
 
 use Doctrine\Common\Cache\FilesystemCache;
@@ -17,7 +11,7 @@ require_once __DIR__."/../vendor/autoload.php";
 if (class_exists('Whoops\Run')) {
     $whoops = new \Whoops\Run;
     $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-    $whoops->register();    
+    $whoops->register();
 }
 
 // check for file upload
@@ -28,12 +22,25 @@ if ( ! empty($_FILES['file'])) {
     $checker = new Checker($_FILES['file']['tmp_name'], $cache);
     // check and render output
     $formatter = new Formatter;
-    echo $formatter->render($checker->checkAll());
-    // we're done!
-    die();
+    $result = $formatter->render($checker->checkAll());
 }
 
 ?>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/default.css" />
+    </head>
+<body>
+    <h1>Composer package version checker</h1>
+
+<?php
+
+if (! empty($result)) {
+    die($result);
+}
+
+?>
+
 <form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
     Select your composer.json file: <input name="file" type="file" onchange="this.form.submit()" />
     <input type="submit" name="form_submit" value="Send File" />
