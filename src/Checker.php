@@ -15,9 +15,9 @@ use Composer\Repository\CompositeRepository;
 use Composer\DependencyResolver\Pool;
 use Composer\Package\Package;
 use Composer\Package\Link;
-use Composer\Package\LinkConstraint\VersionConstraint;
-use Composer\Package\LinkConstraint\LinkConstraintInterface;
 use Composer\Package\Version\VersionParser;
+use Composer\Semver\Constraint\ConstraintInterface;
+use Composer\Semver\Constraint\Constraint;
 use Doctrine\Common\Cache\Cache;
 
 class Checker
@@ -54,8 +54,7 @@ class Checker
     protected function readComposerFile($file)
     {
         $factory = new ComposerFactory;
-        $composer = $factory->createComposer(new NullIO, $file);
-        $this->composer = $composer;
+        $this->composer = $factory->createComposer(new NullIO, $file);
         return $this;
     }
 
@@ -103,8 +102,11 @@ class Checker
     protected function getPackageLinks($includeDev = true)
     {
         $result = $this->composer->getPackage()->getRequires();
-        if ($includeDev and $packages = $this->composer->getPackage()->getDevRequires()) {
-            $result = $result + $packages;
+        if ($includeDev) {
+            $packages = $this->composer->getPackage()->getDevRequires();
+            if ($packages) {
+                $result = $result + $packages;
+            }
         }
         return $result;
     }
@@ -140,7 +142,7 @@ class Checker
      * @param string $stability (default: null)
      * @return null|Package
      */
-    protected function find($package_name, LinkConstraintInterface $constraint = null, $stability = null)
+    protected function find($package_name, ConstraintInterface $constraint = null, $stability = null)
     {
         $repo = new CompositeRepository($this->composer->getRepositoryManager()->getRepositories());
         $pool = new Pool('dev');
@@ -181,8 +183,10 @@ class Checker
         );
 
         $stability = $this->versionParser->parseStability($link->getPrettyConstraint());
-        if ($current = $this->find($name, $link->getConstraint(), $stability)) {
-            $latest = $this->find($name, new VersionConstraint('>', $current->getVersion()), $stability);
+        $current = $this->find($name, $link->getConstraint(), $stability);
+
+        if ($current) {
+            $latest = $this->find($name, new Constraint('>', $current->getVersion()), $stability);
             $result['required'] = $current;
             $result['latest'] = $latest?:$current;
 
