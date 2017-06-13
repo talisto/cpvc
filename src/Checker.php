@@ -14,6 +14,7 @@ use Composer\IO\NullIO;
 use Composer\Repository\CompositeRepository;
 use Composer\DependencyResolver\Pool;
 use Composer\Package\Package;
+use Composer\Package\PackageInterface;
 use Composer\Package\Link;
 use Composer\Package\Version\VersionParser;
 use Composer\Semver\Constraint\ConstraintInterface;
@@ -116,7 +117,7 @@ class Checker
      *
      * @access protected
      * @param string $package_name
-     * @param Package[] $packages
+     * @param PackageInterface[] $packages
      * @param string $stability (default: null)
      * @return false|Package
      */
