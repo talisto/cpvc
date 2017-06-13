@@ -149,7 +149,7 @@ class Checker
         $pool = new Pool('dev');
         $pool->addRepository($repo);
 
-        if ( ! $matches = $pool->whatProvides($package_name, $constraint)) {
+        if (! $matches = $pool->whatProvides($package_name, $constraint)) {
             return;
         }
 
