@@ -26,7 +26,7 @@
         "php": ">=5.6",
         "composer/composer": "~1.7",
         "symfony/console": "~3.4",
-        "doctrine/cache": "~1.8"
+        "doctrine/cache": "~1.6"
     },
     "require-dev": {
         "filp/whoops": "~2.3",
