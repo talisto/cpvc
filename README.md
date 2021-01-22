@@ -1,3 +1,4 @@
+### NOTE: composer now includes an "outdated" command with similar functionality to CPVC, so this project will no longer be maintaned.
 Composer.json Package Version Checker (CPVC)
 ============================================
 
@@ -7,7 +8,7 @@ Composer.json Package Version Checker (CPVC)
 [![Build Status](https://scrutinizer-ci.com/g/talisto/cpvc/badges/build.png?b=master)](https://scrutinizer-ci.com/g/talisto/cpvc/build-status/master)
 
 Do you lock down your composer.json dependencies to a particular version for stability in your project,
-but often wonder if your dependencies are outdated?  
+but often wonder if your dependencies are outdated?
 
 This small application/library will check your composer.json file and output a table showing the latest version
 that will be installed based on your "require" statements, as well as the latest version of the package in the
@@ -15,7 +16,7 @@ repository.  You can then compare the versions and decide if you want to upgrade
 
 There are [online tools](https://www.versioneye.com) to check your dependencies as well, but those require
 your project to be hosted online or need to have a project file constantly uploaded to the service.
-CPVC can be run locally or integrated into your own application.  
+CPVC can be run locally or integrated into your own application.
 
 ### Sample output (CLI mode):
 
@@ -36,11 +37,11 @@ You can use this package as a library in your application, or a CLI app, or a we
 For a quick install with Composer use:
 
     $ composer require talisto/cpvc
-    
+
 Then in your application, use the following:
 
     use Talisto\Composer\VersionCheck\Checker;
-    
+
     $checker = new Checker('/path/to/your/composer.json');
     $result = $checker->checkAll();
 
@@ -49,7 +50,7 @@ parameter to cache the lookup results:
 
     use Talisto\Composer\VersionCheck\Checker;
     use Doctrine\Common\Cache\FilesystemCache;
-    
+
     $cache = new FilesystemCache(sys_get_temp_dir());
     $checker = new Checker('/path/to/your/composer.json', $cache);
     $result = $checker->checkAll();
@@ -60,7 +61,7 @@ There is an output formatter class that will take the results and output an HTML
 
     use Talisto\Composer\VersionCheck\Checker;
     use Talisto\Composer\VersionCheck\Formatter\HTML as Formatter;
-    
+
     $checker = new Checker('/path/to/your/composer.json');
     $formatter = new Formatter;
     echo $formatter->render($checker->checkAll());
@@ -69,7 +70,7 @@ If you only want to check a subset of your dependencies:
 
     use Talisto\Composer\VersionCheck\Checker;
     use Talisto\Composer\VersionCheck\Formatter\HTML as Formatter;
-    
+
     $checker = new Checker('/path/to/your/composer.json');
     $result = $checker->checkPackages(array('talisto/fake-repository'));
 
@@ -87,10 +88,10 @@ The CLI script takes multiple parameters, run with `-h` for help:
 
     Usage:
      cpvc [--no-dev] [--no-cache] [path]
-    
+
     Arguments:
      path                  Path to composer.json
-    
+
     Options:
      --no-dev              Don't include dev dependencies.
      --no-cache            Don't cache the results.
