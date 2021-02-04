@@ -1,4 +1,4 @@
-### NOTE: composer now includes an "outdated" command with similar functionality to CPVC, so this project will no longer be maintaned.
+### NOTE: composer now includes an "outdated" command with similar functionality to CPVC, so this project will no longer be maintained.
 Composer.json Package Version Checker (CPVC)
 ============================================
 
